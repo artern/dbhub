@@ -39,8 +39,19 @@
   "engines": {
     "node": ">=20"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "mcp",
+    "database",
+    "postgresql",
+    "mysql",
+    "mariadb",
+    "sqlite",
+    "sqlserver",
+    "dameng",
+    "dmdb",
+    "model-context-protocol"
+  ],
+  "author": "artern",
   "license": "MIT",
   "dependencies": {
     "@iarna/toml": "^2.2.5",

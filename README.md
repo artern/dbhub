@@ -1,8 +1,15 @@
 > [!NOTE]  
 > Brought to you by [Bytebase](https://www.bytebase.com/), open-source database DevSecOps platform.
 
+[中文文档](./README.zh-CN.md)
+
 > [!IMPORTANT]
 > This fork is maintained at [artern/dbhub](https://github.com/artern/dbhub) and is published to npm as `@artern/dbhub` with MCP registry name `io.github.artern/dbhub`. It is based on the upstream [bytebase/dbhub](https://github.com/bytebase/dbhub) project.
+>
+> **Dameng (DMDB) support** is the primary addition in this fork. Connecting to a Dameng database requires the [`dmdb`](https://www.npmjs.com/package/dmdb) npm package, which is distributed under Dameng's own proprietary license — it is **not** covered by this project's MIT License. Install it separately and review its license terms before use:
+> ```bash
+> npm install dmdb
+> ```
 
 <p align="center">
 <a href="https://dbhub.ai/" target="_blank">
