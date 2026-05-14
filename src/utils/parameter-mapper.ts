@@ -16,6 +16,7 @@ export const PARAMETER_STYLES = {
   mariadb: "positional", // ?, ?, ?
   sqlserver: "named", // @p1, @p2, @p3
   sqlite: "positional", // ?, ?, ?
+  dmdb: "colon-numbered", // :1, :2, :3
 } as const;
 
 /**
@@ -26,7 +27,7 @@ export const PARAMETER_STYLES = {
  */
 export function detectParameterStyle(
   statement: string
-): "numbered" | "positional" | "named" | "none" {
+): "numbered" | "positional" | "named" | "colon-numbered" | "none" {
   // Strip comments and strings to avoid matching parameters inside them
   const cleanedSQL = stripCommentsAndStrings(statement);
 
@@ -38,6 +39,11 @@ export function detectParameterStyle(
   // Check for SQL Server-style named parameters (@p1, @p2, etc.)
   if (/@p\d+/.test(cleanedSQL)) {
     return "named";
+  }
+
+  // Check for DMDB-style colon-numbered parameters (:1, :2, etc.)
+  if (/(^|[^:]):\d+\b/.test(cleanedSQL)) {
+    return "colon-numbered";
   }
 
   // Check for positional parameters (?)
@@ -71,6 +77,7 @@ export function validateParameterStyle(
       numbered: "$1, $2, $3",
       positional: "?, ?, ?",
       named: "@p1, @p2, @p3",
+      "colon-numbered": ":1, :2, :3",
     };
 
     throw new Error(
@@ -128,6 +135,23 @@ export function countParameters(statement: string): number {
           throw new Error(
             `Non-sequential named parameters detected. Found placeholders: ${uniqueIndices.map(n => `@p${n}`).join(', ')}. ` +
             `Parameters must be sequential starting from @p1 (missing @p${i}).`
+          );
+        }
+      }
+
+      return maxIndex;
+    }
+    case "colon-numbered": {
+      const matches = Array.from(cleanedSQL.matchAll(/(^|[^:]):(\d+)\b/g), match => parseInt(match[2], 10));
+      if (matches.length === 0) return 0;
+      const uniqueIndices = Array.from(new Set(matches)).sort((a, b) => a - b);
+
+      const maxIndex = Math.max(...uniqueIndices);
+      for (let i = 1; i <= maxIndex; i++) {
+        if (!uniqueIndices.includes(i)) {
+          throw new Error(
+            `Non-sequential colon-numbered parameters detected. Found placeholders: ${uniqueIndices.map(n => `:${n}`).join(', ')}. ` +
+              `Parameters must be sequential starting from :1 (missing :${i}).`
           );
         }
       }

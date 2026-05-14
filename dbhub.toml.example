@@ -189,6 +189,25 @@ dsn = "postgres://postgres:postgres@localhost:5432/myapp"
 # sslmode = "require"
 
 # ============================================================================
+# DMDB / DAMENG (Local development)
+# ============================================================================
+
+# [[sources]]
+# id = "local_dmdb"
+# dsn = "dm://SYSDBA:SYSDBA@localhost:5236/SYSDBA"
+# query_timeout = 60
+#
+# DMDB - Individual parameters
+# [[sources]]
+# id = "local_dmdb"
+# type = "dmdb"
+# host = "localhost"
+# port = 5236
+# database = "SYSDBA"    # DBHub maps this to the DM login schema
+# user = "SYSDBA"
+# password = "SYSDBA"
+
+# ============================================================================
 # SQLITE (Local file or in-memory)
 # ============================================================================
 

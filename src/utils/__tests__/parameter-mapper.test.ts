@@ -89,6 +89,11 @@ describe("Parameter Mapper", () => {
       expect(detectParameterStyle(sql)).toBe("named");
     });
 
+    it("should detect colon-numbered parameters (:1, :2)", () => {
+      const sql = "SELECT * FROM users WHERE id = :1 AND status = :2";
+      expect(detectParameterStyle(sql)).toBe("colon-numbered");
+    });
+
     it("should return none for SQL without parameters", () => {
       const sql = "SELECT * FROM users";
       expect(detectParameterStyle(sql)).toBe("none");
@@ -111,6 +116,11 @@ describe("Parameter Mapper", () => {
       expect(() => validateParameterStyle(sql, "sqlserver")).not.toThrow();
     });
 
+    it("should accept colon-numbered parameters for dmdb", () => {
+      const sql = "SELECT * FROM users WHERE id = :1";
+      expect(() => validateParameterStyle(sql, "dmdb")).not.toThrow();
+    });
+
     it("should reject positional parameters for postgres", () => {
       const sql = "SELECT * FROM users WHERE id = ?";
       expect(() => validateParameterStyle(sql, "postgres")).toThrow(
@@ -122,6 +132,13 @@ describe("Parameter Mapper", () => {
       const sql = "SELECT * FROM users WHERE id = $1";
       expect(() => validateParameterStyle(sql, "mysql")).toThrow(
         /Invalid parameter syntax for mysql/
+      );
+    });
+
+    it("should reject positional parameters for dmdb", () => {
+      const sql = "SELECT * FROM users WHERE id = ?";
+      expect(() => validateParameterStyle(sql, "dmdb")).toThrow(
+        /Invalid parameter syntax for dmdb/
       );
     });
 
@@ -170,6 +187,13 @@ describe("Parameter Mapper", () => {
       ).toBe(3);
     });
 
+    it("should count colon-numbered parameters correctly", () => {
+      expect(countParameters("SELECT * FROM users WHERE id = :1")).toBe(1);
+      expect(
+        countParameters("SELECT * FROM users WHERE id = :1 AND status = :2")
+      ).toBe(2);
+    });
+
     it("should return 0 for SQL without parameters", () => {
       expect(countParameters("SELECT * FROM users")).toBe(0);
     });
@@ -214,6 +238,12 @@ describe("Parameter Mapper", () => {
       expect(countParameters("SELECT * WHERE id = @p1 OR parent_id = @p1")).toBe(1);
       // Reused @p1 and sequential @p2 should count as 2 parameters (valid)
       expect(countParameters("SELECT * WHERE (id = @p1 OR parent_id = @p1) AND status = @p2")).toBe(2);
+    });
+
+    it("should reject non-sequential colon-numbered parameters", () => {
+      expect(() => countParameters("SELECT * WHERE a = :1 AND b = :3")).toThrow(
+        /Non-sequential colon-numbered parameters.*missing :2/
+      );
     });
   });
 

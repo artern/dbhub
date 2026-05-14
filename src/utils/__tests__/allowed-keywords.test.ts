@@ -63,6 +63,10 @@ describe("isReadOnlySQL", () => {
       expect(isReadOnlySQL("PRAGMA table_info(users)", "sqlite")).toBe(true);
     });
 
+    it("should recognize DESC as read-only for DMDB", () => {
+      expect(isReadOnlySQL("DESC users", "dmdb")).toBe(true);
+    });
+
     it("should not recognize SHOW as read-only for SQLite", () => {
       expect(isReadOnlySQL("SHOW TABLES", "sqlite")).toBe(false);
     });
@@ -70,6 +74,7 @@ describe("isReadOnlySQL", () => {
     it("should reject standalone ANALYZE (updates statistics)", () => {
       expect(isReadOnlySQL("ANALYZE users", "postgres")).toBe(false);
       expect(isReadOnlySQL("ANALYZE", "mysql")).toBe(false);
+      expect(isReadOnlySQL("ANALYZE users", "dmdb")).toBe(false);
     });
 
     it("should allow REPLACE() as a function in MySQL SELECT", () => {

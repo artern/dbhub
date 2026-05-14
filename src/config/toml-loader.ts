@@ -241,7 +241,7 @@ function validateSourceConfig(source: SourceConfig, configPath: string): void {
 
   // Validate type if provided
   if (source.type) {
-    const validTypes = ["postgres", "mysql", "mariadb", "sqlserver", "sqlite"];
+    const validTypes = ["postgres", "mysql", "mariadb", "sqlserver", "sqlite", "dmdb"];
     if (!validTypes.includes(source.type)) {
       throw new Error(
         `Configuration file ${configPath}: source '${source.id}' has invalid type '${source.type}'. ` +
@@ -635,7 +635,8 @@ export function buildDSNFromSource(source: SourceConfig): string {
   const encodedDatabase = encodeURIComponent(source.database);
 
   // Build base DSN
-  let dsn = `${source.type}://${encodedUser}:${encodedPassword}@${source.host}:${port}/${encodedDatabase}`;
+  const protocol = source.type === "dmdb" ? "dm" : source.type;
+  let dsn = `${protocol}://${encodedUser}:${encodedPassword}@${source.host}:${port}/${encodedDatabase}`;
 
   // Collect query parameters
   const queryParams: string[] = [];

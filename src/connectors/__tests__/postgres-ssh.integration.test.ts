@@ -57,6 +57,7 @@ describe('PostgreSQL SSH Tunnel Simple Integration Tests', () => {
         { dsn: 'mysql://user:pass@host:3306/db', expectedPort: 3306 },
         { dsn: 'mariadb://user:pass@host:3306/db', expectedPort: 3306 },
         { dsn: 'sqlserver://user:pass@host:1433/db', expectedPort: 1433 },
+        { dsn: 'dm://user:pass@host:5236/db', expectedPort: 5236 },
       ];
       
       for (const testCase of testCases) {

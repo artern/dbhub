@@ -3,7 +3,7 @@ import type { ConnectorType } from "../connectors/interface.js";
 /**
  * Quote a database identifier (table name, schema name, column name) for safe use in SQL queries.
  * Each database has its own identifier quoting rules:
- * - PostgreSQL/SQLite: Double quotes ("identifier")
+ * - PostgreSQL/SQLite/DMDB: Double quotes ("identifier")
  * - MySQL/MariaDB: Backticks (`identifier`)
  * - SQL Server: Square brackets ([identifier])
  *
@@ -34,6 +34,7 @@ export function quoteIdentifier(identifier: string, dbType: ConnectorType): stri
   switch (dbType) {
     case "postgres":
     case "sqlite":
+    case "dmdb":
       // PostgreSQL and SQLite use double quotes
       // Escape existing double quotes by doubling them
       return `"${identifier.replace(/"/g, '""')}"`;

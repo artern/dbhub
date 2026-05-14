@@ -116,6 +116,26 @@ dsn = "sqlite:///path/to/database.db"
       expect(result?.sources[0].user).toBeUndefined();
     });
 
+    it('should parse DSN and populate connection fields for dmdb', () => {
+      const tomlContent = `
+[[sources]]
+id = "dmdb_dsn"
+dsn = "dm://SYSDBA:SYSDBA@dm.local:5236/SYSDBA"
+`;
+      fs.writeFileSync(path.join(tempDir, 'dbhub.toml'), tomlContent);
+
+      const result = loadTomlConfig();
+
+      expect(result?.sources[0]).toMatchObject({
+        id: 'dmdb_dsn',
+        type: 'dmdb',
+        host: 'dm.local',
+        port: 5236,
+        database: 'SYSDBA',
+        user: 'SYSDBA',
+      });
+    });
+
     it('should not override explicit connection params with DSN values', () => {
       const tomlContent = `
 [[sources]]
@@ -1108,6 +1128,21 @@ dsn = "postgres://user:pass@localhost:5432/testdb"
       const dsn = buildDSNFromSource(source);
 
       expect(dsn).toBe('sqlserver://sa:StrongPass123@localhost:1433/master');
+    });
+
+    it('should build DMDB DSN with default port', () => {
+      const source: SourceConfig = {
+        id: 'test',
+        type: 'dmdb',
+        host: 'localhost',
+        database: 'SYSDBA',
+        user: 'SYSDBA',
+        password: 'SYSDBA',
+      };
+
+      const dsn = buildDSNFromSource(source);
+
+      expect(dsn).toBe('dm://SYSDBA:SYSDBA@localhost:5236/SYSDBA');
     });
 
     it('should build SQL Server DSN with instanceName', () => {

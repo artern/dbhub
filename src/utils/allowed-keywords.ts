@@ -12,6 +12,7 @@ export const allowedKeywords: Record<ConnectorType, string[]> = {
   mariadb: ["select", "with", "explain", "show", "describe", "desc"],
   sqlite: ["select", "with", "explain", "pragma"],
   sqlserver: ["select", "with", "explain", "showplan"],
+  dmdb: ["select", "with", "explain", "describe", "desc"],
 };
 
 /**
@@ -55,6 +56,7 @@ const mutatingPatterns: Record<ConnectorType, RegExp> = {
   mariadb: mutatingPatternWithReplace,
   sqlite: mutatingPatternWithReplace,
   sqlserver: mutatingPattern,
+  dmdb: mutatingPattern,
 };
 
 const selectIntoPattern = /\bselect\b[\s\S]+\binto\b/i;

@@ -94,6 +94,8 @@ describe('DSN Obfuscation Utilities', () => {
       ['mariadb://user:pass@localhost:3306/db', 'mariadb'],
       ['sqlserver://user:pass@localhost:1433/db', 'sqlserver'],
       ['sqlite:///path/to/db.db', 'sqlite'],
+      ['dm://user:pass@localhost:5236/schema', 'dmdb'],
+      ['dmdb://user:pass@localhost:5236/schema', 'dmdb'],
     ])('should return correct type for %s', (dsn, expected) => {
       expect(getDatabaseTypeFromDSN(dsn)).toBe(expected);
     });
@@ -114,6 +116,7 @@ describe('DSN Obfuscation Utilities', () => {
       ['mysql://root:password@mysql.local:3307/appdb', { type: 'mysql', host: 'mysql.local', port: 3307, database: 'appdb', user: 'root' }],
       ['mariadb://admin:pass123@maria.server:3306/production', { type: 'mariadb', host: 'maria.server', port: 3306, database: 'production', user: 'admin' }],
       ['sqlserver://sa:StrongPass@sqlserver.local:1433/master', { type: 'sqlserver', host: 'sqlserver.local', port: 1433, database: 'master', user: 'sa' }],
+      ['dm://SYSDBA:secret@dm.local:5236/SYSDBA', { type: 'dmdb', host: 'dm.local', port: 5236, database: 'SYSDBA', user: 'SYSDBA' }],
     ])('should parse %s correctly', (dsn, expected) => {
       expect(parseConnectionInfoFromDSN(dsn)).toEqual(expected);
     });

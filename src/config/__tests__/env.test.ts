@@ -89,6 +89,21 @@ describe('Environment Configuration Tests', () => {
       });
     });
 
+    it('should build DMDB DSN with default port', () => {
+      process.env.DB_TYPE = 'dmdb';
+      process.env.DB_HOST = 'dmdb.example.com';
+      process.env.DB_USER = 'SYSDBA';
+      process.env.DB_PASSWORD = 'SYSDBA';
+      process.env.DB_NAME = 'SYSDBA';
+
+      const result = buildDSNFromEnvParams();
+
+      expect(result).toEqual({
+        dsn: 'dm://SYSDBA:SYSDBA@dmdb.example.com:5236/SYSDBA',
+        source: 'individual environment variables'
+      });
+    });
+
     it('should build SQLite DSN with only DB_TYPE and DB_NAME', () => {
       process.env.DB_TYPE = 'sqlite';
       process.env.DB_NAME = '/path/to/database.db';
@@ -205,7 +220,7 @@ describe('Environment Configuration Tests', () => {
       process.env.DB_NAME = 'db';
 
       expect(() => buildDSNFromEnvParams()).toThrow(
-        'Unsupported DB_TYPE: oracle. Supported types: postgres, postgresql, mysql, mariadb, sqlserver, sqlite'
+        'Unsupported DB_TYPE: oracle. Supported types: postgres, postgresql, mysql, mariadb, sqlserver, sqlite, dm, dmdb'
       );
     });
 

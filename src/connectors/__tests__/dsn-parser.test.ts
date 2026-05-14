@@ -6,6 +6,7 @@ import { PostgresConnector } from '../postgres/index.js';
 import { MySQLConnector } from '../mysql/index.js';
 import { MariaDBConnector } from '../mariadb/index.js';
 import { SQLServerConnector } from '../sqlserver/index.js';
+import { DMDBConnector } from '../dmdb/index.js';
 
 describe('DSN Parser - PostgreSQL SSL Modes', () => {
   const connector = new PostgresConnector();
@@ -221,5 +222,45 @@ describe('DSN Parser - SQL Server NTLM Authentication', () => {
     expect(config.authentication).toBeUndefined();
     expect(config.user).toBe('sa');
     expect(config.password).toBe('password');
+  });
+});
+
+describe('DSN Parser - DMDB', () => {
+  const connector = new DMDBConnector();
+  const parser = connector.dsnParser;
+
+  it('should parse DMDB DSN with default schema from path', async () => {
+    const config = await parser.parse('dm://SYSDBA:SYSDBA@localhost:5236/SYSDBA');
+
+    expect(config).toMatchObject({
+      connectString: 'localhost:5236',
+      user: 'SYSDBA',
+      password: 'SYSDBA',
+      schema: 'SYSDBA',
+    });
+  });
+
+  it('should allow schema query parameter to override path schema', async () => {
+    const config = await parser.parse('dmdb://SYSDBA:SYSDBA@localhost:5236/IGNORED?schema=APP');
+
+    expect(config).toMatchObject({
+      connectString: 'localhost:5236',
+      user: 'SYSDBA',
+      password: 'SYSDBA',
+      schema: 'APP',
+    });
+  });
+
+  it('should map timeout settings from connector config', async () => {
+    const config = await parser.parse('dm://SYSDBA:SYSDBA@localhost/SYSDBA', {
+      connectionTimeoutSeconds: 10,
+      queryTimeoutSeconds: 30,
+    });
+
+    expect(config).toMatchObject({
+      connectString: 'localhost:5236',
+      connectTimeout: 10000,
+      socketTimeout: 30000,
+    });
   });
 });

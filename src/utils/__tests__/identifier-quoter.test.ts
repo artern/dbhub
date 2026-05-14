@@ -86,6 +86,15 @@ describe("quoteIdentifier", () => {
     });
   });
 
+  describe("DMDB", () => {
+    const dbType: ConnectorType = "dmdb";
+
+    it("should quote identifiers with double quotes", () => {
+      expect(quoteIdentifier("users", dbType)).toBe('"users"');
+      expect(quoteIdentifier('table"name', dbType)).toBe('"table""name"');
+    });
+  });
+
   describe("SQL Server", () => {
     const dbType: ConnectorType = "sqlserver";
 
@@ -137,6 +146,14 @@ describe("quoteIdentifier", () => {
 
     it("should reject empty identifiers", () => {
       expect(() => quoteIdentifier("", "postgres")).toThrow("Identifier cannot be empty");
+    });
+  });
+
+  describe("DMDB", () => {
+    const dbType: ConnectorType = "dmdb";
+
+    it("should quote with double quotes", () => {
+      expect(quoteQualifiedIdentifier("users", "SYSDBA", dbType)).toBe('"SYSDBA"."users"');
     });
   });
 });
