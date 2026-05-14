@@ -111,8 +111,9 @@ export class DMDBConnector implements Connector {
 
   async connect(dsn: string, initScript?: string, config?: ConnectorConfig): Promise<void> {
     const attributes = await this.dsnParser.parse(dsn, config);
+    const poolConnectString = this.buildPoolConnectString(dsn, attributes);
     this.pool = await dmdb.createPool({
-      ...attributes,
+      connectString: poolConnectString,
       poolMin: 0,
       poolMax: 4,
     });
@@ -438,6 +439,37 @@ export class DMDBConnector implements Connector {
 
   private getSchemaToUse(schema?: string): string {
     return schema || this.defaultSchema;
+  }
+
+  private buildPoolConnectString(dsn: string, attributes: dmdb.ConnectionAttributes): string {
+    const url = new SafeURL(dsn);
+    const searchParams = new URLSearchParams();
+
+    url.forEachSearchParam((value, key) => {
+      if (key !== "schema") {
+        searchParams.set(key, value);
+      }
+    });
+
+    if (attributes.schema && typeof attributes.schema === "string") {
+      searchParams.set("schema", attributes.schema);
+    }
+
+    if (attributes.connectTimeout !== undefined) {
+      searchParams.set("connectTimeout", String(attributes.connectTimeout));
+    }
+
+    if (attributes.socketTimeout !== undefined) {
+      searchParams.set("socketTimeout", String(attributes.socketTimeout));
+    }
+
+    const auth = url.username
+      ? `${encodeURIComponent(url.username)}:${encodeURIComponent(url.password)}@`
+      : "";
+    const port = url.port || "5236";
+    const queryString = searchParams.toString();
+
+    return `dm://${auth}${url.hostname}:${port}${queryString ? `?${queryString}` : ""}`;
   }
 
   private async resolveCurrentSchema(
