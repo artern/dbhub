@@ -5,11 +5,11 @@ description: "A maintainer's deep-dive into DBHub—a zero-dependency, token eff
 
 _Last updated: Dec 28, 2025_
 
-This is the third in a series reviewing Postgres MCP servers. Here we—the DBHub maintainers—explain the design behind [DBHub](https://github.com/bytebase/dbhub), a zero-dependency, token efficient MCP server that connects AI assistants to PostgreSQL, MySQL, MariaDB, SQL Server, and SQLite. We'll cover our design decisions, trade-offs, and where DBHub falls short compared to alternatives.
+This is the third in a series reviewing Postgres MCP servers. Here we—the DBHub maintainers—explain the design behind [DBHub](https://github.com/artern/dbhub), a zero-dependency, token efficient MCP server that connects AI assistants to PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, and DMDB. We'll cover our design decisions, trade-offs, and where DBHub falls short compared to alternatives.
 
 - **GitHub Stars**
 
-    [![Star History Chart](https://api.star-history.com/svg?repos=bytebase/dbhub&type=date&legend=top-left)](https://www.star-history.com/#bytebase/dbhub&type=date&legend=top-left)
+    [![Star History Chart](https://api.star-history.com/svg?repos=artern/dbhub&type=date&legend=top-left)](https://www.star-history.com/#artern/dbhub&type=date&legend=top-left)
 
 - **License:** MIT
 - **Language:** TypeScript
@@ -34,7 +34,7 @@ With local development as the primary use case, our design objectives are:
 <Note>Testing on Mac (Apple Silicon), same as the other reviews in this series.</Note>
 
 ```bash
-npx @bytebase/dbhub@latest --dsn "postgres://user:password@localhost:5432/dbname"
+npx @artern/dbhub@latest --dsn "postgres://user:password@localhost:5432/dbname"
 ```
 
 One command, no configuration file required. Unlike MCP Toolbox which requires a YAML config file upfront, DBHub works directly with a DSN. 
@@ -43,7 +43,7 @@ Configuration files are optional—use them when you need advanced settings.
 For those who want to try DBHub without setting up a database first:
 
 ```bash
-npx @bytebase/dbhub@latest --demo
+npx @artern/dbhub@latest --demo
 ```
 
 This starts DBHub with a bundled SQLite employee database—useful for exploring the MCP integration before connecting to your own databases.
@@ -160,11 +160,11 @@ DBHub includes a [built-in web interface](/workbench/overview) with two main fea
 
 1. **Tool Execution**: Run database tools directly from your browser—useful for testing and debugging without an MCP client. Custom tools render as constrained forms with validated inputs.
 
-    ![workbench](https://raw.githubusercontent.com/bytebase/dbhub/main/docs/images/workbench/custom-tool.webp)
+    ![workbench](https://raw.githubusercontent.com/artern/dbhub/main/docs/images/workbench/custom-tool.webp)
 
 1. **Request Traces**: Inspect MCP requests to understand how AI agents interact with DBHub.
 
-    ![request-trace](https://raw.githubusercontent.com/bytebase/dbhub/main/docs/images/workbench/request-trace.webp)
+    ![request-trace](https://raw.githubusercontent.com/artern/dbhub/main/docs/images/workbench/request-trace.webp)
 
 ## Summary
 

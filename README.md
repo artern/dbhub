@@ -1,12 +1,15 @@
 > [!NOTE]  
 > Brought to you by [Bytebase](https://www.bytebase.com/), open-source database DevSecOps platform.
 
+> [!IMPORTANT]
+> This fork is maintained at [artern/dbhub](https://github.com/artern/dbhub) and is published to npm as `@artern/dbhub` with MCP registry name `io.github.artern/dbhub`. It is based on the upstream [bytebase/dbhub](https://github.com/bytebase/dbhub) project.
+
 <p align="center">
 <a href="https://dbhub.ai/" target="_blank">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bytebase/dbhub/main/docs/images/logo/full-dark.svg" width="75%">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bytebase/dbhub/main/docs/images/logo/full-light.svg" width="75%">
-  <img src="https://raw.githubusercontent.com/bytebase/dbhub/main/docs/images/logo/full-light.svg" width="75%" alt="DBHub Logo">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/artern/dbhub/main/docs/images/logo/full-dark.svg" width="75%">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/artern/dbhub/main/docs/images/logo/full-light.svg" width="75%">
+  <img src="https://raw.githubusercontent.com/artern/dbhub/main/docs/images/logo/full-light.svg" width="75%" alt="DBHub Logo">
 </picture>
 </a>
 </p>
@@ -54,7 +57,7 @@ DBHub implements MCP tools for database operations:
 
 DBHub includes a [built-in web interface](https://dbhub.ai/workbench/overview) for interacting with your database tools. It provides a visual way to execute queries, run custom tools, and view request traces without requiring an MCP client.
 
-![workbench](https://raw.githubusercontent.com/bytebase/dbhub/main/docs/images/workbench/workbench.webp)
+![workbench](https://raw.githubusercontent.com/artern/dbhub/main/docs/images/workbench/workbench.webp)
 
 ## Installation
 
@@ -68,7 +71,7 @@ See the full [Installation Guide](https://dbhub.ai/installation) for detailed in
 docker run --rm --init \
    --name dbhub \
    --publish 8080:8080 \
-   bytebase/dbhub \
+   artern/dbhub \
    --transport http \
    --port 8080 \
    --dsn "postgres://user:password@localhost:5432/dbname?sslmode=disable"
@@ -77,13 +80,13 @@ docker run --rm --init \
 **NPM:**
 
 ```bash
-npx @bytebase/dbhub@latest --transport http --port 8080 --dsn "postgres://user:password@localhost:5432/dbname?sslmode=disable"
+npx @artern/dbhub@latest --transport http --port 8080 --dsn "postgres://user:password@localhost:5432/dbname?sslmode=disable"
 ```
 
 **Demo Mode:**
 
 ```bash
-npx @bytebase/dbhub@latest --transport http --port 8080 --demo
+npx @artern/dbhub@latest --transport http --port 8080 --demo
 ```
 
 See [Command-Line Options](https://dbhub.ai/config/command-line) for all available parameters.
@@ -111,16 +114,16 @@ See [Testing](.claude/skills/testing/SKILL.md) and [Debug](https://dbhub.ai/conf
 
 ## Contributors
 
-<a href="https://github.com/bytebase/dbhub/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=bytebase/dbhub" />
+<a href="https://github.com/artern/dbhub/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=artern/dbhub" />
 </a>
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=bytebase%2Fdbhub&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=artern%2Fdbhub&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=bytebase/dbhub&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=bytebase/dbhub&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=bytebase/dbhub&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=artern/dbhub&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=artern/dbhub&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=artern/dbhub&type=date&legend=top-left" />
  </picture>
 </a>

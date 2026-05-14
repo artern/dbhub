@@ -113,11 +113,11 @@ readonly = true
 
 ```bash Command Line (Deprecated)
 # This flag is deprecated - use TOML configuration instead
-npx @bytebase/dbhub@latest --readonly --dsn "postgres://user:pass@localhost:5432/mydb"
+npx @artern/dbhub@latest --readonly --dsn "postgres://user:pass@localhost:5432/mydb"
 ```
 </CodeGroup>
 
-In read-only mode, only [allowed SQL keywords](https://github.com/bytebase/dbhub/blob/main/src/utils/allowed-keywords.ts) are permitted, including:
+In read-only mode, only [allowed SQL keywords](https://github.com/artern/dbhub/blob/main/src/utils/allowed-keywords.ts) are permitted, including:
 
 - `SELECT` queries
 - `SHOW` commands
@@ -147,7 +147,7 @@ max_rows = 1000
 
 ```bash Command Line (Deprecated)
 # This flag is deprecated - use TOML configuration instead
-npx @bytebase/dbhub@latest --max-rows 1000 --dsn "..."
+npx @artern/dbhub@latest --max-rows 1000 --dsn "..."
 ```
 </CodeGroup>
 

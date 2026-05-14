@@ -31,13 +31,13 @@ For **http** transport, start DBHub server manually:
 <Tabs>
   <Tab title="NPM">
     ```bash
-    npx @bytebase/dbhub@latest --transport http --port 8080 --demo
+    npx @artern/dbhub@latest --transport http --port 8080 --demo
     ```
   </Tab>
 
   <Tab title="Docker">
     ```bash
-    docker run --rm -p 8080:8080 bytebase/dbhub --transport http --port 8080 --demo
+    docker run --rm -p 8080:8080 artern/dbhub --transport http --port 8080 --demo
     ```
   </Tab>
 </Tabs>
@@ -142,10 +142,10 @@ Try these example prompts in your AI tool:
 
 ## Step 4: Install the Agent Skill (Optional)
 
-DBHub provides an [agent skill](https://github.com/bytebase/dbhub/tree/main/skills/dbhub) that teaches your AI tool the best-practice workflow for database querying — explore the schema first, then write precise SQL. This reduces errors and back-and-forth.
+DBHub provides an [agent skill](https://github.com/artern/dbhub/tree/main/skills/dbhub) that teaches your AI tool the best-practice workflow for database querying — explore the schema first, then write precise SQL. This reduces errors and back-and-forth.
 
 ```bash
-npx skills add bytebase/dbhub
+npx skills add artern/dbhub
 ```
 
 The skill guides the AI to follow the **explore-then-query** pattern: discover schemas, find tables, inspect table structure, then write targeted queries. It works with all supported AI tools.
@@ -155,5 +155,5 @@ The skill guides the AI to follow the **explore-then-query** pattern: discover s
 Once you've verified DBHub works in demo mode, connect it to your actual database.
 
 <Card title="DSN Configuration" icon="link" href="/config/command-line#dsn">
-  Complete connection string formats and options for PostgreSQL, MySQL, MariaDB, SQL Server, and SQLite.
+  Complete connection string formats and options for PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, and DMDB.
 </Card>

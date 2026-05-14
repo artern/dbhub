@@ -64,7 +64,7 @@ export DB_PASSWORD="s3cret"
 export STAGING_HOST="staging.example.com"
 export STAGING_PASSWORD="staging_pass"
 export SSH_PASSWORD="ssh_pass"
-npx @bytebase/dbhub@latest --config dbhub.toml
+npx @artern/dbhub@latest --config dbhub.toml
 ```
 
 <Note>
@@ -108,10 +108,10 @@ Start DBHub:
 
 ```bash
 # Automatically loads ./dbhub.toml
-npx @bytebase/dbhub@latest --transport http --port 8080
+npx @artern/dbhub@latest --transport http --port 8080
 
 # Or specify custom location
-npx @bytebase/dbhub@latest --config=/path/to/config.toml
+npx @artern/dbhub@latest --config=/path/to/config.toml
 ```
 
 ## Source Options

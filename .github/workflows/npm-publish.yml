@@ -11,8 +11,8 @@
 #    - Skips publishing if the version already exists on npm
 #
 # Authentication: Uses OIDC trusted publishing (no npm tokens required)
-# Prerequisites: Configure trusted publisher at https://www.npmjs.com/package/@bytebase/dbhub/access
-#   - Organization/User: bytebase (or your npm org)
+# Prerequisites: Configure trusted publisher at https://www.npmjs.com/package/@artern/dbhub/access
+#   - Organization/User: artern (or your npm org)
 #   - Repository: dbhub
 #   - Workflow filename: npm-publish.yml
 #   - Environment: (leave empty unless using GitHub environments)
@@ -99,7 +99,7 @@ jobs:
             VERSION="${CURRENT_VERSION}"
             
             # Check if this version already exists in npm registry to avoid duplicates
-            if npm view @bytebase/dbhub@${VERSION} version &> /dev/null; then
+            if npm view @artern/dbhub@${VERSION} version &> /dev/null; then
               echo "Version ${VERSION} already exists in npm registry. Skipping publish."
               SHOULD_PUBLISH="false"
             else
@@ -134,7 +134,7 @@ jobs:
           if [ "${SHOULD_PUBLISH}" = "true" ]; then
             # Step 1: Update package name and version
             echo "Preparing package.json for publishing..."
-            jq --arg version "$VERSION" '.name = "@bytebase/dbhub" | .version = $version' package.json > package.json.tmp
+            jq --arg version "$VERSION" '.name = "@artern/dbhub" | .version = $version' package.json > package.json.tmp
             mv package.json.tmp package.json
             
             # Step 2: Configure which files to include in the published package
@@ -157,7 +157,7 @@ jobs:
       - name: Publish to npm
         if: env.SHOULD_PUBLISH == 'true'
         run: |
-          echo "Publishing @bytebase/dbhub@${{ env.PACKAGE_VERSION }} with tag ${{ env.NPM_TAG }}..."
+          echo "Publishing @artern/dbhub@${{ env.PACKAGE_VERSION }} with tag ${{ env.NPM_TAG }}..."
           echo "npm version: $(npm --version)"
           # --provenance enables OIDC authentication and signed attestation
           # No NODE_AUTH_TOKEN needed - authentication via GitHub OIDC
